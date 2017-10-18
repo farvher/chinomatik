@@ -8,5 +8,7 @@ public class ChinomatikApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ChinomatikApplication.class, args);
+
 	}
+
 }

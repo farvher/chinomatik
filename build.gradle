@@ -29,7 +29,10 @@ repositories {
 
 
 dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('com.1stleg:jnativehook:2.1.0')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
