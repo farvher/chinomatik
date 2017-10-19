@@ -5,7 +5,27 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="/activar">Activar</a>
-<a href="/desactivar">desActivar</a>
+	<a href="/activar">Activar</a>
+	<a href="/desactivar">desActivar</a>
+	<a href="/status">status</a>
+
+	<table th:if="${events!=null}">
+		<tr>
+			<td>x</td>
+			<td>y</td>
+			<td>key</td>
+			<td>event</td>
+			<td>dt</td>
+			<td>position</td>
+		</tr>
+		<tr th:each="e : ${events}">
+			<td th:text="${e.x}"></td>
+			<td th:text="${e.y}"></td>
+			<td th:text="${e.key}"></td>
+			<td th:text="${e.event}"></td>
+			<td th:text="${e.date}"></td>
+			<td th:text="${e.position}"></td>
+		</tr>
+	</table>
 </body>
 </html>

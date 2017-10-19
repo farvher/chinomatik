@@ -6,28 +6,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
+
 public class Event {
 	@Id
-	@GeneratedValue
 	private int id;
 
 	private Long eventId;
 
-	private int x;
+	private Integer x;
 
-	private int y;
+	private Integer y;
 
-	private int key;
-
-	private int position;
+	private Integer key;
 
 	private LocalDateTime date;
 
-	private boolean isMouseEvent;
+	private Long position;
 
-	private boolean isKeyEvent;
-
+	private String event;
 
 	public int getId() {
 		return id;
@@ -37,36 +33,36 @@ public class Event {
 		this.id = id;
 	}
 
-	public int getX() {
+	public Long getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
+	}
+
+	public Integer getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(Integer x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public Integer getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(Integer y) {
 		this.y = y;
 	}
 
-	public int getKey() {
+	public Integer getKey() {
 		return key;
 	}
 
-	public void setKey(int key) {
+	public void setKey(Integer key) {
 		this.key = key;
-	}
-
-	public int getPosition() {
-		return position;
-	}
-
-	public void setPosition(int position) {
-		this.position = position;
 	}
 
 	public LocalDateTime getDate() {
@@ -77,27 +73,21 @@ public class Event {
 		this.date = date;
 	}
 
-	public boolean isMouseEvent() {
-		return isMouseEvent;
+	public Long getPosition() {
+		return position;
 	}
 
-	public void setMouseEvent(boolean isMouseEvent) {
-		this.isMouseEvent = isMouseEvent;
+	public void setPosition(Long position) {
+		this.position = position;
 	}
 
-	public boolean isKeyEvent() {
-		return isKeyEvent;
+	public String getEvent() {
+		return event;
 	}
 
-	public void setKeyEvent(boolean isKeyEvent) {
-		this.isKeyEvent = isKeyEvent;
+	public void setEvent(String event) {
+		this.event = event;
 	}
 
-	public Long getEventId() {
-		return eventId;
-	}
-
-	public void setEventId(Long eventId) {
-		this.eventId = eventId;
-	}
+	
 }

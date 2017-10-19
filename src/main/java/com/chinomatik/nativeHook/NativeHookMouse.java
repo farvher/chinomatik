@@ -1,87 +1,73 @@
 package com.chinomatik.nativeHook;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.chinomatik.dto.EventDto;
+
 @Component
-public class NativeHookMouse implements NativeMouseInputListener {
-
-	private static final Logger logger = LoggerFactory.getLogger(NativeHookMouse.class);
-
-	private static List<Integer> x;
-	private static List<Integer> y;
+public class NativeHookMouse extends NativeHook implements NativeMouseInputListener {
 
 	public void nativeMouseClicked(NativeMouseEvent e) {
-		logger.info("Mouse Moved: " + e.getX() + ", " + e.getY());
+//		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSECLICKED));
+
 	}
 
 	public void nativeMousePressed(NativeMouseEvent e) {
-//		exit();
+//		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEPRESSED));
 	}
 
 	public void nativeMouseReleased(NativeMouseEvent e) {
-		logger.info("Mouse Released: " + e.getButton());
+		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(), MOUSERELEASE));
 	}
 
 	public void nativeMouseMoved(NativeMouseEvent e) {
-		logger.info("Mouse Moved: " + e.getX() + ", " + e.getY());
+//		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEMOVED));
 	}
 
 	public void nativeMouseDragged(NativeMouseEvent e) {
-
-		x.add(e.getX());
-		y.add(e.getY());
+	//	events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEDRAGGED));
 	}
 
 	public static void init() {
 		try {
 			GlobalScreen.registerNativeHook();
+			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+			logger.setLevel(Level.OFF);
 
-			x = new ArrayList<Integer>();
-			y = new ArrayList<Integer>();
+			// Don't forget to disable the parent handlers.
+			logger.setUseParentHandlers(false);
+			if (events == null) {
+				events = new ArrayList<>();
+			}
 
 		} catch (NativeHookException ex) {
-			logger.error("There was a problem registering the native hook.");
-			logger.error(ex.getMessage());
+//			logger.error("There was a problem registering the native hook.");
+//			logger.error(ex.getMessage());
 		}
-		// Add the appropriate listeners.
 		GlobalScreen.addNativeMouseListener(new NativeHookMouse());
 		GlobalScreen.addNativeMouseMotionListener(new NativeHookMouse());
 	}
 
 	public static void exit() {
-		try {
-			GlobalScreen.unregisterNativeHook();;
+		events.clear();
+		// try {
+		// GlobalScreen.unregisterNativeHook();;
+		//
+		// } catch (NativeHookException ex) {
+		// logger.error("There was a problem registering the native hook.");
+		// logger.error(ex.getMessage());
+		// }
 
-		} catch (NativeHookException ex) {
-			logger.error("There was a problem registering the native hook.");
-			logger.error(ex.getMessage());
-		}
-
-	}
-
-	public static List<Integer> getX() {
-		return x;
-	}
-
-	public static void setX(List<Integer> x) {
-		NativeHookMouse.x = x;
-	}
-
-	public static List<Integer> getY() {
-		return y;
-	}
-
-	public static void setY(List<Integer> y) {
-		NativeHookMouse.y = y;
 	}
 
 }
