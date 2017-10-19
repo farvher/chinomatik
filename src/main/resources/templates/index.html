@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -7,25 +7,37 @@
 <body>
 	<a href="/activar">Activar</a>
 	<a href="/desactivar">desActivar</a>
+	<a href="/save">Save</a>
 	<a href="/status">status</a>
+	<a href="/saved">saved</a>
+	<a href="/deleteall">deleteall</a>
 
-	<table th:if="${events!=null}">
-		<tr>
-			<td>x</td>
-			<td>y</td>
-			<td>key</td>
-			<td>event</td>
-			<td>dt</td>
-			<td>position</td>
-		</tr>
-		<tr th:each="e : ${events}">
-			<td th:text="${e.x}"></td>
-			<td th:text="${e.y}"></td>
-			<td th:text="${e.key}"></td>
-			<td th:text="${e.event}"></td>
-			<td th:text="${e.date}"></td>
-			<td th:text="${e.position}"></td>
-		</tr>
-	</table>
+<!-- 	<table th:if="${events!=null}"> -->
+<!-- 		<tr> -->
+<!-- 			<td>x</td> -->
+<!-- 			<td>y</td> -->
+<!-- 			<td>key</td> -->
+<!-- 			<td>event</td> -->
+<!-- 			<td>dt</td> -->
+<!-- 			<td>position</td> -->
+<!-- 		</tr> -->
+<!-- 		<tr th:each="e : ${events}"> -->
+<!-- 			<td th:text="${e?.x}">1</td> -->
+<!-- 			<td th:text="${e?.y}">1</td> -->
+<!-- 			<td th:text="${e?.key}">1</td> -->
+<!-- 			<td th:text="${e?.event}">1</td> -->
+<!-- 			<td th:text="${e?.date}">1</td> -->
+<!-- 			<td th:text="${e?.position}">1</td> -->
+<!-- 		</tr> -->
+<!-- 	</table> -->
+
+	<div th:if="${saved !=null}">
+		<ul>
+			<li th:each="s : ${saved}"><a th:href="@{|/saved/${s.id}|}"
+				th:text="|Record ${s.id}|"></a> <a th:href="@{|/execute/${s.id}|}"
+				th:text="|Execute ${s.id}|"></a></li>
+		</ul>
+
+	</div>
 </body>
 </html>

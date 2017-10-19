@@ -17,17 +17,19 @@ import com.chinomatik.dto.EventDto;
 @Component
 public class NativeHookKey extends NativeHook implements NativeKeyListener {
 
-
 	@Override
 	public void nativeKeyTyped(NativeKeyEvent e) {
-//		events.add(new EventDto(null, null, e.getKeyCode(), LocalDateTime.now(),
-//				Calendar.getInstance().getTimeInMillis(), INPUTKEYTYPE));--eliminado por que retorna 0
+		// events.add(new EventDto(null, null, e.getKeyCode(),
+		// LocalDateTime.now(),
+		// Calendar.getInstance().getTimeInMillis(), INPUTKEYTYPE));--eliminado
+		// por que retorna 0
 	}
 
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent e) {
-//		events.add(new EventDto(null, null, e.getKeyCode(), LocalDateTime.now(),
-//				Calendar.getInstance().getTimeInMillis(), INPUTKEYPRESSED));
+		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+		
+		}
 	}
 
 	@Override
@@ -47,8 +49,8 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 			}
 
 		} catch (NativeHookException ex) {
-//			logger.error("There was a problem registering the native hook.");
-//			logger.error(ex.getMessage());
+			// logger.error("There was a problem registering the native hook.");
+			// logger.error(ex.getMessage());
 		}
 
 		/* Construct the example object and initialze native hook. */
@@ -56,7 +58,9 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 	}
 
 	public static void exit() {
-		events.clear();
+		if (events != null) {
+			events.clear();
+		}
 	}
 
 }

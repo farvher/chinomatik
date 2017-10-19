@@ -23,7 +23,7 @@ public class NativeHookMouse extends NativeHook implements NativeMouseInputListe
 	}
 
 	public void nativeMousePressed(NativeMouseEvent e) {
-//		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEPRESSED));
+		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEPRESSED));
 	}
 
 	public void nativeMouseReleased(NativeMouseEvent e) {
@@ -35,7 +35,7 @@ public class NativeHookMouse extends NativeHook implements NativeMouseInputListe
 	}
 
 	public void nativeMouseDragged(NativeMouseEvent e) {
-	//	events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEDRAGGED));
+	events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEDRAGGED));
 	}
 
 	public static void init() {
@@ -59,7 +59,9 @@ public class NativeHookMouse extends NativeHook implements NativeMouseInputListe
 	}
 
 	public static void exit() {
-		events.clear();
+		if (events != null) {
+			events.clear();
+		}
 		// try {
 		// GlobalScreen.unregisterNativeHook();;
 		//

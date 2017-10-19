@@ -19,6 +19,7 @@ public class MoveMouse {
 			robot.delay(SPEED);
 			robot.keyPress(letter[i]);
 			robot.keyRelease(letter[i]);
+			
 		}
 	}
 
