@@ -23,15 +23,15 @@ public class NativeHookMouse extends NativeHook implements NativeMouseInputListe
 	}
 
 	public void nativeMousePressed(NativeMouseEvent e) {
-		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEPRESSED));
+		events.add(new EventDto(e.getX(), e.getY(), e.getButton(), LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEPRESSED));
 	}
 
 	public void nativeMouseReleased(NativeMouseEvent e) {
-		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(), MOUSERELEASE));
+		events.add(new EventDto(e.getX(), e.getY(), e.getButton(), LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(), MOUSERELEASE));
 	}
 
 	public void nativeMouseMoved(NativeMouseEvent e) {
-//		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEMOVED));
+		events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEMOVED));
 	}
 
 	public void nativeMouseDragged(NativeMouseEvent e) {
@@ -40,7 +40,11 @@ public class NativeHookMouse extends NativeHook implements NativeMouseInputListe
 
 	public static void init() {
 		try {
-			GlobalScreen.registerNativeHook();
+			if (!GlobalScreen.isNativeHookRegistered()){
+				GlobalScreen.registerNativeHook();
+				GlobalScreen.addNativeMouseListener(new NativeHookMouse());
+				GlobalScreen.addNativeMouseMotionListener(new NativeHookMouse());
+			}
 			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 			logger.setLevel(Level.OFF);
 
@@ -54,8 +58,8 @@ public class NativeHookMouse extends NativeHook implements NativeMouseInputListe
 //			logger.error("There was a problem registering the native hook.");
 //			logger.error(ex.getMessage());
 		}
-		GlobalScreen.addNativeMouseListener(new NativeHookMouse());
-		GlobalScreen.addNativeMouseMotionListener(new NativeHookMouse());
+		
+		
 	}
 
 	public static void exit() {

@@ -41,7 +41,11 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 	public static void init() {
 
 		try {
-			GlobalScreen.registerNativeHook();
+			if (!GlobalScreen.isNativeHookRegistered()){
+				GlobalScreen.registerNativeHook();
+				GlobalScreen.addNativeKeyListener(new NativeHookKey());
+				
+			}
 			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 			logger.setLevel(Level.OFF);
 			if (events == null) {
@@ -54,7 +58,7 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 		}
 
 		/* Construct the example object and initialze native hook. */
-		GlobalScreen.addNativeKeyListener(new NativeHookKey());
+	
 	}
 
 	public static void exit() {

@@ -48,12 +48,15 @@ public class RobotServiceImpl implements RobotService {
 					robot.keyRelease(createAwtKeyEvent(e.getKey()));
 					break;
 				case NativeHook.MOUSEPRESSED:
-					robot.mousePress(InputEvent.BUTTON1_MASK);
+					robot.mousePress(e.getKey()==1?InputEvent.BUTTON1_MASK:InputEvent.BUTTON3_MASK);
 					break;
 				case NativeHook.MOUSERELEASE:
-					robot.mouseRelease(InputEvent.BUTTON1_MASK);
+					robot.mousePress(e.getKey()==1?InputEvent.BUTTON1_MASK:InputEvent.BUTTON3_MASK);
 					break;
 				case NativeHook.MOUSEDRAGGED:
+					robot.mouseMove(e.getX(), e.getY());
+					break;
+				case NativeHook.MOUSEMOVED:
 					robot.mouseMove(e.getX(), e.getY());
 					break;
 
