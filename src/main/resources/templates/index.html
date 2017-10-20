@@ -1,43 +1,148 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+
 <title>Insert title here</title>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+	crossorigin="anonymous" />
+
 </head>
 <body>
-	<a href="/activar">Activar</a>
-	<a href="/desactivar">desActivar</a>
-	<a href="/save">Save</a>
-	<a href="/status">status</a>
-	<a href="/saved">saved</a>
-	<a href="/deleteall">deleteall</a>
-
-<!-- 	<table th:if="${events!=null}"> -->
-<!-- 		<tr> -->
-<!-- 			<td>x</td> -->
-<!-- 			<td>y</td> -->
-<!-- 			<td>key</td> -->
-<!-- 			<td>event</td> -->
-<!-- 			<td>dt</td> -->
-<!-- 			<td>position</td> -->
-<!-- 		</tr> -->
-<!-- 		<tr th:each="e : ${events}"> -->
-<!-- 			<td th:text="${e?.x}">1</td> -->
-<!-- 			<td th:text="${e?.y}">1</td> -->
-<!-- 			<td th:text="${e?.key}">1</td> -->
-<!-- 			<td th:text="${e?.event}">1</td> -->
-<!-- 			<td th:text="${e?.date}">1</td> -->
-<!-- 			<td th:text="${e?.position}">1</td> -->
-<!-- 		</tr> -->
-<!-- 	</table> -->
-
-	<div th:if="${saved !=null}">
-		<ul>
-			<li th:each="s : ${saved}"><a th:href="@{|/saved/${s.id}|}"
-				th:text="|Record ${s.id}|"></a> <a th:href="@{|/execute/${s.id}|}"
-				th:text="|Execute ${s.id}|"></a></li>
+	<div class="container">
+		<ul class="nav nav-pills nav-fill">
+			<li class="nav-item"><a class="nav-link" href="/">Status</a></li>
+			<li class="nav-item"><a class="nav-link" href="/activar" id="activar">Activar</a></li>
+			<li class="nav-item"><a class="nav-link" href="/desactivar">Reset</a></li>
+			<li class="nav-item"><a class="nav-link" href="/save">Save</a></li>
+			<li class="nav-item"><a class="nav-link" href="/saved">Saved</a></li>
+			<li class="nav-item"><a class="nav-link" href="/deleteall"
+				onclick="reset()">Delete All </a></li>
 		</ul>
+		<div id="alerta" class="alert alert-primary invisible"></div>
 
+		<div th:if="${events!=null}">
+			<h2 th:text="|${#lists.size(events)} eventos|"></h2>
+			<div class="row">
+				<ul id="events" class="list-group col-sm"
+					th:with="size=${#lists.size(events)}">
+					<li th:each="e,i : ${events.subList(0,size/4)}"
+						class="list-group-item "><span class="badge badge-info sm"
+						th:text="${e?.x}"></span> <span class="badge badge-info"
+						th:text="${e?.y}"></span> <span class="badge badge-info"
+						th:text="${e?.key}"></span> <span class="badge badge-info"
+						th:text="${e?.event}"></span></li>
+
+				</ul>
+				<ul id="events" class="list-group col-sm"
+					th:with="size=${#lists.size(events)}">
+					<li th:each="e,i : ${events.subList(size/4,size/2)}"
+						class="list-group-item "><span class="badge badge-info sm"
+						th:text="${e?.x}"></span> <span class="badge badge-info"
+						th:text="${e?.y}"></span> <span class="badge badge-info"
+						th:text="${e?.key}"></span> <span class="badge badge-info"
+						th:text="${e?.event}"></span></li>
+
+				</ul>
+				<ul id="events" class="list-group col-sm"
+					th:with="size=${#lists.size(events)}">
+					<li th:each="e,i : ${events.subList(size/2,size/4+size/2)}"
+						class="list-group-item "><span class="badge badge-info sm"
+						th:text="${e?.x}"></span> <span class="badge badge-info"
+						th:text="${e?.y}"></span> <span class="badge badge-info"
+						th:text="${e?.key}"></span> <span class="badge badge-info"
+						th:text="${e?.event}"></span></li>
+
+				</ul>
+				<ul id="events" class="list-group col-sm"
+					th:with="size=${#lists.size(events)}">
+					<li th:each="e,i : ${events.subList(size/4+size/2,size)}"
+						class="list-group-item "><span class="badge badge-info sm"
+						th:text="${e?.x}"></span> <span class="badge badge-info"
+						th:text="${e?.y}"></span> <span class="badge badge-info"
+						th:text="${e?.key}"></span> <span class="badge badge-info"
+						th:text="${e?.event}"></span></li>
+
+				</ul>
+			</div>
+		</div>
+
+
+		<div th:if="${saved !=null}">
+			<ul class="list-group">
+				<li th:each="s : ${saved}" class="list-group-item"><a
+					class="btn" th:href="@{|/saved/${s.id}|}"
+					th:text="|Record ${s.id}|"></a> <a class="btn"
+					th:href="@{|/execute/${s.id}|}" th:text="|Execute ${s.id}|"></a></li>
+			</ul>
+		</div>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+			integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+			integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+			crossorigin="anonymous"></script>
+
+		<script>
+		function updateStatus(){
+				$.ajax({
+					url : "/events/",
+					method:"post",
+					contentType:'application/json',
+					success:function(data){
+						$.each(data,function(i,o){
+							var html="";
+							var open = "<li class='list-group-item'>";
+							var close ="</li>";
+							html+=open+o.x+close;
+							html+=open+o.y+close;
+							html+=open+o.key+close;
+							html+=open+o.event+close;
+							});
+						$("#events").html(html);
+						
+						},
+					error : function(er,ex,error){
+						alert("error ajax: "+er);
+						}
+					})
+
+			}
+			function isRecording(){
+
+				$.ajax({
+					url : "/recording/",
+					method:"get",
+					contentType:'application/json',
+					success: function(data){
+						$("#activar").addClass(data?"active":"");
+						}
+					})
+			}	
+		
+			$(document).ready(function(){
+// 				updateStatus()
+// 				setInterval(updateStatus(), 1000);
+setInterval(isRecording(), 1000);
+					isRecording()
+			})
+			</script>
 	</div>
+
 </body>
 </html>

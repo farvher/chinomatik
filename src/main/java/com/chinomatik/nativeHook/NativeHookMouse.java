@@ -38,42 +38,6 @@ public class NativeHookMouse extends NativeHook implements NativeMouseInputListe
 	events.add(new EventDto(e.getX(), e.getY(), null, LocalDateTime.now(), Calendar.getInstance().getTimeInMillis(),MOUSEDRAGGED));
 	}
 
-	public static void init() {
-		try {
-			if (!GlobalScreen.isNativeHookRegistered()){
-				GlobalScreen.registerNativeHook();
-				GlobalScreen.addNativeMouseListener(new NativeHookMouse());
-				GlobalScreen.addNativeMouseMotionListener(new NativeHookMouse());
-			}
-			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-			logger.setLevel(Level.OFF);
-
-			// Don't forget to disable the parent handlers.
-			logger.setUseParentHandlers(false);
-			if (events == null) {
-				events = new ArrayList<>();
-			}
-
-		} catch (NativeHookException ex) {
-//			logger.error("There was a problem registering the native hook.");
-//			logger.error(ex.getMessage());
-		}
-		
-		
-	}
-
-	public static void exit() {
-		if (events != null) {
-			events.clear();
-		}
-		// try {
-		// GlobalScreen.unregisterNativeHook();;
-		//
-		// } catch (NativeHookException ex) {
-		// logger.error("There was a problem registering the native hook.");
-		// logger.error(ex.getMessage());
-		// }
-
-	}
+	
 
 }

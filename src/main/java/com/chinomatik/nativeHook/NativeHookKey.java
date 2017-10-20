@@ -19,17 +19,14 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 
 	@Override
 	public void nativeKeyTyped(NativeKeyEvent e) {
-		// events.add(new EventDto(null, null, e.getKeyCode(),
-		// LocalDateTime.now(),
-		// Calendar.getInstance().getTimeInMillis(), INPUTKEYTYPE));--eliminado
-		// por que retorna 0
+//		events.add(new EventDto(null, null, e.getKeyCode(), LocalDateTime.now(),
+//				Calendar.getInstance().getTimeInMillis(), INPUTKEYTYPE));
 	}
 
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent e) {
-		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
-		
-		}
+//		events.add(new EventDto(null, null, e.getKeyCode(), LocalDateTime.now(),
+//				Calendar.getInstance().getTimeInMillis(), INPUTKEYRELEASE));
 	}
 
 	@Override
@@ -38,33 +35,5 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 				Calendar.getInstance().getTimeInMillis(), INPUTKEYRELEASE));
 	}
 
-	public static void init() {
-
-		try {
-			if (!GlobalScreen.isNativeHookRegistered()){
-				GlobalScreen.registerNativeHook();
-				GlobalScreen.addNativeKeyListener(new NativeHookKey());
-				
-			}
-			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-			logger.setLevel(Level.OFF);
-			if (events == null) {
-				events = new ArrayList<>();
-			}
-
-		} catch (NativeHookException ex) {
-			// logger.error("There was a problem registering the native hook.");
-			// logger.error(ex.getMessage());
-		}
-
-		/* Construct the example object and initialze native hook. */
 	
-	}
-
-	public static void exit() {
-		if (events != null) {
-			events.clear();
-		}
-	}
-
 }

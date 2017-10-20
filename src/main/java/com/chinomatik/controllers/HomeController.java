@@ -3,18 +3,23 @@ package com.chinomatik.controllers;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.jnativehook.GlobalScreen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chinomatik.dto.EventDto;
 import com.chinomatik.dto.RecordDto;
+import com.chinomatik.nativeHook.NativeHook;
 import com.chinomatik.nativeHook.NativeHookKey;
 import com.chinomatik.nativeHook.NativeHookMouse;
 import com.chinomatik.robot.RobotService;
 import com.chinomatik.services.RecordService;
+import com.google.gson.Gson;
 
 @Controller
 public class HomeController {
@@ -28,22 +33,18 @@ public class HomeController {
 
 	@Autowired
 	private RobotService robotService;
+	
+	private Gson gson = new Gson();
 
-	@GetMapping("/")
-	public String home() {
-
-		return INDEX;
-	}
 
 	@GetMapping("/activar")
 	public String active() {
-
-		NativeHookMouse.init();
-		NativeHookKey.init();
+		NativeHook.exit();
+		NativeHook.init();
 		return INDEX;
 	}
 
-	@GetMapping("/status")
+	@GetMapping("/")
 	public String status(Model m) {
 
 		List<EventDto> events = NativeHookMouse.getEvents();
@@ -64,9 +65,11 @@ public class HomeController {
 	}
 	
 	@GetMapping("/desactivar")
-	public String inactive() {
-		NativeHookMouse.exit();
-		return INDEX;
+	public String inactive(Model m) {
+		NativeHook.exit();
+		List<EventDto> events = NativeHookMouse.getEvents();
+		m.addAttribute("events", events);
+		return "redirect:/";
 	}
 
 	@GetMapping("/saved")
@@ -90,7 +93,20 @@ public class HomeController {
 	@GetMapping("/deleteall")
 	public String deleteAll() {
 		recordService.deleteAll();
-		return INDEX;
+		return "redirect:/saved";
 	}
+	
+	@PostMapping("/events/")
+	@ResponseBody
+	public String ajaxEvent(){
+		List<EventDto> events = NativeHookMouse.getEvents();
+		return gson.toJson(events);
+	}
+	@GetMapping("/recording")
+	@ResponseBody
+	public Boolean isRecording(){
+		return GlobalScreen.isNativeHookRegistered();
+	}
+	
 
 }
