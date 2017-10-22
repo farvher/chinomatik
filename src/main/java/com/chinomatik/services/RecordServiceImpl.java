@@ -4,6 +4,7 @@ import static org.springframework.data.mongodb.core.FindAndModifyOptions.options
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,12 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	public List<RecordDto> findAll() {
 		return recordDao.findAll().stream().map(i-> RecordDto.entityToDto(i)).collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		recordDao.deleteById(id);
+		
 	}
 
 }

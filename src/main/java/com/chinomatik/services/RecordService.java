@@ -16,6 +16,8 @@ public interface RecordService {
 	List<RecordDto> findAll();
 
 	void deleteAll();
+	
+	void deleteById(Long id);
 
 	int getNextSequence(String seqName);
 

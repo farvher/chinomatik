@@ -1,6 +1,7 @@
 package com.chinomatik.controllers;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jnativehook.GlobalScreen;
@@ -33,9 +34,8 @@ public class HomeController {
 
 	@Autowired
 	private RobotService robotService;
-	
-	private Gson gson = new Gson();
 
+	private Gson gson = new Gson();
 
 	@GetMapping("/activar")
 	public String active() {
@@ -61,14 +61,12 @@ public class HomeController {
 		recordDto.setId(recordService.getNextSequence(RECORD_SECUENCES));
 		recordService.save(recordDto);
 		NativeHookMouse.exit();
-		return INDEX;
+		return "redirect:/saved";
 	}
-	
-	@GetMapping("/desactivar")
+
+	@GetMapping("/reset")
 	public String inactive(Model m) {
 		NativeHook.exit();
-		List<EventDto> events = NativeHookMouse.getEvents();
-		m.addAttribute("events", events);
 		return "redirect:/";
 	}
 
@@ -80,33 +78,54 @@ public class HomeController {
 
 	@GetMapping("/saved/{id}")
 	public String saved(Model m, @PathVariable Long id) {
-		m.addAttribute("events", recordService.findRecord(id).getEvents());
+		RecordDto recorDto = recordService.findRecord(id);
+		m.addAttribute("events", recorDto.getEvents());
+		m.addAttribute("recordNo", recorDto.getId());
 		return INDEX;
 	}
 
 	@GetMapping("/execute/{id}")
 	public String execute(Model m, @PathVariable Long id) {
 		robotService.execute(recordService.findRecord(id));
-		return INDEX;
+		return "redirect:/saved";
 	}
-	
+
+	@GetMapping("/execute/{id}/{times}")
+	public String execute(Model m, @PathVariable Long id, @PathVariable Integer times) {
+		robotService.execute(recordService.findRecord(id), times);
+		return "redirect:/saved";
+	}
+
+	@GetMapping("/delete/{id}")
+	public String delete(Model m, @PathVariable Long id) {
+		recordService.deleteById(id);
+		return "redirect:/saved";
+	}
+
 	@GetMapping("/deleteall")
 	public String deleteAll() {
 		recordService.deleteAll();
 		return "redirect:/saved";
 	}
-	
-	@PostMapping("/events/")
+
+	@GetMapping("/events")
 	@ResponseBody
-	public String ajaxEvent(){
+	public String ajaxEvent() {
 		List<EventDto> events = NativeHookMouse.getEvents();
 		return gson.toJson(events);
 	}
+
+	@GetMapping("/count")
+	@ResponseBody
+	public Integer ajaxCount() {
+		List<EventDto> events = NativeHookMouse.getEvents();
+		return events != null ? events.size() : 0;
+	}
+
 	@GetMapping("/recording")
 	@ResponseBody
-	public Boolean isRecording(){
+	public Boolean isRecording() {
 		return GlobalScreen.isNativeHookRegistered();
 	}
-	
 
 }

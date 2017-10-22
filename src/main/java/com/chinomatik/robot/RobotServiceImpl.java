@@ -4,6 +4,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
 
@@ -31,47 +32,72 @@ public class RobotServiceImpl implements RobotService {
 
 	@Override
 	public void execute(RecordDto record) {
+
+		init();
+		robotExecute(record);
+		kill();
+	}
+
+	@Override
+	public void execute(RecordDto record, int times) {
+		init();
+		while (times > 0) {
+			robotExecute(record);
+			times--;
+		}
+		kill();
+	}
+
+	private void init() {
 		try {
 			robot = new Robot();
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void kill() {
+		if (robot != null) {
+			robot = null;
+		}
+	}
+
+	private void robotExecute(RecordDto record) {
 
 		try {
 			for (EventDto e : record.getEvents()) {
-				robot.delay(50);
-				switch (e.getEvent()) {
-				case NativeHook.INPUTKEYRELEASE:
-					robot.keyPress(createAwtKeyEvent(e.getKey()));
-					robot.keyRelease(createAwtKeyEvent(e.getKey()));
-				case NativeHook.INPUTKEYPRESSED:
-					robot.keyRelease(createAwtKeyEvent(e.getKey()));
-					break;
-				case NativeHook.MOUSEPRESSED:
-					robot.mousePress(e.getKey()==1?InputEvent.BUTTON1_MASK:InputEvent.BUTTON3_MASK);
-					break;
-				case NativeHook.MOUSERELEASE:
-					robot.mouseRelease(e.getKey()==1?InputEvent.BUTTON1_MASK:InputEvent.BUTTON3_MASK);
-					break;
-				case NativeHook.MOUSEDRAGGED:
-					robot.mouseMove(e.getX(), e.getY());
-					break;
-				case NativeHook.MOUSEMOVED:
-					robot.mouseMove(e.getX(), e.getY());
-					break;
+				if (robot != null) {
+					robot.delay(50);
+					switch (e.getEvent()) {
+					case NativeHook.INPUTKEYRELEASE:
+						robot.keyPress(createAwtKeyEvent(e.getKey()));
+						robot.keyRelease(createAwtKeyEvent(e.getKey()));
+					case NativeHook.INPUTKEYPRESSED:
+						robot.keyRelease(createAwtKeyEvent(e.getKey()));
+						break;
+					case NativeHook.MOUSEPRESSED:
+						robot.mousePress(e.getKey() == 1 ? InputEvent.BUTTON1_MASK : InputEvent.BUTTON3_MASK);
+						break;
+					case NativeHook.MOUSERELEASE:
+						robot.mouseRelease(e.getKey() == 1 ? InputEvent.BUTTON1_MASK : InputEvent.BUTTON3_MASK);
+						break;
+					case NativeHook.MOUSEDRAGGED:
+						robot.mouseMove(e.getX(), e.getY());
+						break;
+					case NativeHook.MOUSEMOVED:
+						robot.mouseMove(e.getX(), e.getY());
+						break;
 
-				default:
-					break;
+					default:
+						break;
+					}
+
 				}
-
 			}
 		} catch (Exception ex) {
 			logger.error("ERROR ROBOT", ex);
 
 		}
-
-		// KeyEvent
-		// NativeKeyEvent
 
 	}
 
