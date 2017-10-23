@@ -39,6 +39,9 @@ public abstract class NativeHook {
 	}
 
 	public static void init() {
+		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+		logger.setLevel(Level.OFF);
+		logger.setUseParentHandlers(false);
 		try {
 			if (!GlobalScreen.isNativeHookRegistered()) {
 				GlobalScreen.registerNativeHook();
@@ -46,11 +49,6 @@ public abstract class NativeHook {
 				GlobalScreen.addNativeMouseMotionListener(new NativeHookMouse());
 				GlobalScreen.addNativeKeyListener(new NativeHookKey());
 			}
-			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-			logger.setLevel(Level.OFF);
-
-			// Don't forget to disable the parent handlers.
-			logger.setUseParentHandlers(false);
 			if (events == null) {
 				events = new ArrayList<>();
 			}
