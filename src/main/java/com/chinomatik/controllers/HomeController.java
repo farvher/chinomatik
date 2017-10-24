@@ -59,7 +59,9 @@ public class HomeController {
 		recordDto.setEvents(events);
 		recordDto.setRecordEnd(LocalDateTime.now());
 		recordDto.setId(recordService.getNextSequence(RECORD_SECUENCES));
-		recordService.save(recordDto);
+		if (events != null) {
+			recordService.save(recordDto);
+		}
 		NativeHookMouse.exit();
 		return "redirect:/saved";
 	}

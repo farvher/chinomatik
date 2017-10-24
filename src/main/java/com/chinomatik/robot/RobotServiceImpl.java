@@ -23,7 +23,7 @@ public class RobotServiceImpl implements RobotService {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private Robot robot;
+	private static Robot robot;
 
 	static {
 
@@ -48,15 +48,17 @@ public class RobotServiceImpl implements RobotService {
 		kill();
 	}
 
-	private void init() {
+	private  void init() {
 		try {
-			robot = new Robot();
+			if (robot == null) {
+				robot = new Robot();
+			}
 		} catch (AWTException e) {
-			e.printStackTrace();
+			logger.error("Error init robot",e);
 		}
 	}
 
-	private void kill() {
+	public static void kill() {
 		if (robot != null) {
 			robot = null;
 		}
@@ -94,8 +96,11 @@ public class RobotServiceImpl implements RobotService {
 
 				}
 			}
+		}catch(NullPointerException nullEx){
+			logger.info("Finished robot");
+			
 		} catch (Exception ex) {
-			logger.error("ERROR ROBOT", ex);
+			logger.error("Error executing robot ", ex);
 
 		}
 

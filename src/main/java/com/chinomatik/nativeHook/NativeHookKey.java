@@ -10,12 +10,17 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chinomatik.dto.EventDto;
+import com.chinomatik.robot.RobotService;
+import com.chinomatik.robot.RobotServiceImpl;
 
 @Component
 public class NativeHookKey extends NativeHook implements NativeKeyListener {
+	
+	
 
 	@Override
 	public void nativeKeyTyped(NativeKeyEvent e) {
@@ -25,6 +30,9 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent e) {
+		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+			RobotServiceImpl.kill();
+		}
 //		events.add(new EventDto(null, null, e.getKeyCode(), LocalDateTime.now(),
 //				Calendar.getInstance().getTimeInMillis(), INPUTKEYRELEASE));
 	}
