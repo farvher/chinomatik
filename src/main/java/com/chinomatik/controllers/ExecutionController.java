@@ -3,6 +3,7 @@ package com.chinomatik.controllers;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ import com.chinomatik.services.RecordService;
 @Controller
 public class ExecutionController {
 
-	private static final String INDEX = "execution";
+	private static final String EXECUTION = "execution";
 
 	@Autowired
 	private RecordService recordService;
@@ -36,17 +37,18 @@ public class ExecutionController {
 	public String saved(Model m) {
 		m.addAttribute("saved", recordService.findAll());
 		m.addAttribute("executions", executionService.findAll());
-		return INDEX;
+		return EXECUTION;
 	}
 
 	@PostMapping("/createExecution")
-	public String addExecution(Model m, Integer[] idRecord, String executionName, String dateTime) {
+	public String addExecution(Model m, Long[] idRecord, String executionName, String dateTime,Integer times) {
 
 		ExecutionDto executionDto = new ExecutionDto();
 		executionDto.setExecutionName(executionName);
 		executionDto.setId(executionService.getNextSequence("execution"));
 		executionDto.setScheduledStart(parseLocalDateTime(dateTime));
 		executionDto.setRecordsId(Arrays.asList(idRecord));
+		executionDto.setTimes(times);
 		executionService.save(executionDto);
 
 		return "redirect:/executions";
@@ -59,12 +61,20 @@ public class ExecutionController {
 		RecordDto recorDto = recordService.findRecord(id);
 		m.addAttribute("events", recorDto.getEvents());
 		m.addAttribute("recordNo", recorDto.getId());
-		return INDEX;
+		return EXECUTION;
 	}
 
 	@PostMapping("/execute-record")
-	public String execute(Model m, Long idRecord, int times) {
-		robotService.execute(recordService.findRecord(idRecord), times);
+	public String executeSingleRecord(Model m, Long id) {
+		robotService.execute(recordService.findRecord(id));
+		return "redirect:/executions";
+	}
+	
+	@PostMapping("/execute-execution")
+	public String executeExecution(Model m, Integer id) {
+		ExecutionDto execution = executionService.findById(id);
+		List<RecordDto> recordList = recordService.findByIdIn(execution.getRecordsId());
+		robotService.execute(recordList,execution.getTimes());
 		return "redirect:/executions";
 	}
 

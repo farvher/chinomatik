@@ -19,7 +19,7 @@ public class ExecutionDto implements Serializable {
 
 	private LocalDateTime scheduledStart;
 
-	private List<Integer> recordsId;
+	private List<Long> recordsId;
 
 	private int times;
 
@@ -47,11 +47,11 @@ public class ExecutionDto implements Serializable {
 		this.scheduledStart = scheduledStart;
 	}
 
-	public List<Integer> getRecordsId() {
+	public List<Long> getRecordsId() {
 		return recordsId;
 	}
 
-	public void setRecordsId(List<Integer> recordsId) {
+	public void setRecordsId(List<Long> recordsId) {
 		this.recordsId = recordsId;
 	}
 

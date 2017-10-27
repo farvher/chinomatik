@@ -7,19 +7,24 @@ $(function() {
 	var counterRecord = 0;
 	$(".record-add").click(function(){
 		var id = $(this).attr("data");
-		var input ="<input type='text' class='btn btn-success col-xs-2' readonly='readonly' value='"+id+"' name='idRecord'/>" 
+		var input ="<input type='button'  value='"+id+"' class='btn btn-success' readonly='readonly'/>"
+		var inputHidden = "<input type='hidden'  value='"+id+"' name='idRecord'/>"
 		$("#recordsAdded").append(input);
+		$("#recordsAdded").append(inputHidden);
 		$(".createExecution").prop("disabled", false)
 		counterRecord++;
 		
 	});
 	
-	$("#execute").click(function(){
-		
-		var url = "/execute";
-		var process =  $(this).attr("");
-		
+	$(".single-record").click(function(){
+		var id = $(this).attr("data")
+		sendAjax("/execute-record", {id:id}, "post", function(){console.log("executing ...")});
 	});
+	
+	$(".ex-execute").click(function(){
+		var id = $(this).attr("data")
+		sendAjax("/execute-execution", {id:id}, "post", function(){console.log("executing ...")});
+	})
 	
 	$.fn.executeRobot = function(){
 		sendAjax(url, data, "post", function(){console.log("executing ...")});

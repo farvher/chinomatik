@@ -65,7 +65,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	public List<RecordDto> findByIdIn(Collection<Long> ids) {
+	public List<RecordDto> findByIdIn(List<Long> ids) {
 		
 		return recordDao.findByIdIn(ids).stream().map(i->RecordDto.entityToDto(i)).collect(Collectors.toList());
 	}

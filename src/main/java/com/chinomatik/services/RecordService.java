@@ -16,7 +16,7 @@ public interface RecordService {
 	
 	List<RecordDto> findAll();
 	
-	List<RecordDto> findByIdIn(Collection<Long> id);
+	List<RecordDto> findByIdIn(List<Long> id);
 
 	void deleteAll();
 	

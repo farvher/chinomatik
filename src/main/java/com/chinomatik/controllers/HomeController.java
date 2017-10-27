@@ -25,6 +25,8 @@ public class HomeController {
 
 	private static final String RECORD_SECUENCES = "record";
 	
+	private static final String EXECUTIONS ="executions";
+	
 
 	@Autowired
 	private RecordService recordService;

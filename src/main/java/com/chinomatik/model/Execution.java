@@ -12,7 +12,7 @@ public class Execution {
 	
 	private String executionName;
 	
-	private List<Integer> recordsId;
+	private List<Long> recordsId;
 	
 	private LocalDateTime scheduledStart;
 	
@@ -35,11 +35,11 @@ public class Execution {
 	}
 
 	
-	public List<Integer> getRecordsId() {
+	public List<Long> getRecordsId() {
 		return recordsId;
 	}
 
-	public void setRecordsId(List<Integer> recordsId) {
+	public void setRecordsId(List<Long> recordsId) {
 		this.recordsId = recordsId;
 	}
 
