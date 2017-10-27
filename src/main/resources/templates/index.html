@@ -1,36 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-
-<title>Insert title here</title>
-
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-	crossorigin="anonymous" />
-
+<head th:replace="header :: head('Home')">
 </head>
 <body>
 	<div class="container">
 
-		<ul class="nav nav-pills nav-fill">
-			<li class="nav-item"><a class="nav-link" href="/">Status</a></li>
-			<li class="nav-item"><a class="nav-link" href="/activar"
-				id="activar">Activar</a></li>
-			<li class="nav-item"><a class="nav-link" href="/reset">Reset</a></li>
-			<li class="nav-item"><a class="nav-link" href="/save">Save <span
-					class="badge badge-light" id="count">0</span>
-			</a></li>
-			<li class="nav-item"><a class="nav-link" href="/saved">Saved</a></li>
-			<li class="nav-item"><a class="nav-link" href="/deleteall"
-				onclick="reset()">Delete All </a></li>
-		</ul>
-		<div id="alerta" class="alert alert-primary invisible"></div>
+		<div th:replace="menu :: menu"></div>
 
 		<div th:if="${events!=null}">
 			<h3 th:if="${recordNo!=null}" th:text="|Record No ${recordNo}|"></h3>
@@ -79,76 +54,8 @@
 			</div>
 		</div>
 
+		<div th:replace="header::scripts"></div>
 
-		<div th:if="${saved !=null}">
-			<ul class="list-group">
-				<li th:each="s : ${saved}" class="list-group-item">
-				<div class="row">
-				<a class="btn col-sm-2" th:href="@{|/saved/${s.id}|}" th:text="|Record ${s.id}|"></a> 
-				<input type="number" class="form-control col-sm-1" placeholder="times" value="1"/>
-				<a class="btn col-sm-2 " th:href="@{|/execute/${s.id}|}" th:text="|Execute ${s.id}|"></a>
-				<a class="btn col-sm-2" th:href="@{|/delete/${s.id}|}" th:text="|Delete ${s.id}|"></a>
-				</div>
-				</li>
-			</ul>
-		</div>
-
-		<script src="https://code.jquery.com/jquery-3.2.1.js"
-			integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-			crossorigin="anonymous"></script>
-		<!-- Optional JavaScript -->
-		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-			integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-			integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-			crossorigin="anonymous"></script>
-
-		<script>
-			function isRecording() {
-
-				$.ajax({
-					url : "/recording/",
-					method : "get",
-					contentType : 'application/json',
-					success : function(data) {
-						$("#activar").addClass(data ? "active" : "");
-						$("#activar").text(data ? "Activo" : "Activar");
-					},
-					error : function(er) {
-						console.log("error: " + er);
-
-					}
-				})
-			}
-			function getCount() {
-
-				$.ajax({
-					url : "/count",
-					method : "get",
-					contentType : 'application/json',
-					success : function(data) {
-						$("#count").html(data);
-					},
-					error : function(er) {
-						console.log("error: " + er);
-
-					}
-				})
-			}
-
-			$(document).ready(function() {
-				isRecording();
-				getCount();
-				window.setInterval(function() {
-					getCount()
-				}, 1000);
-			})
-		</script>
 	</div>
 
 </body>

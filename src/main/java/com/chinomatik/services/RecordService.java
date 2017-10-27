@@ -1,5 +1,6 @@
 package com.chinomatik.services;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.chinomatik.dto.EventDto;
@@ -14,6 +15,8 @@ public interface RecordService {
 	RecordDto findRecord(Long recordId);
 	
 	List<RecordDto> findAll();
+	
+	List<RecordDto> findByIdIn(Collection<Long> id);
 
 	void deleteAll();
 	

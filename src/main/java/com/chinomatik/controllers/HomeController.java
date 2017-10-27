@@ -1,7 +1,6 @@
 package com.chinomatik.controllers;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jnativehook.GlobalScreen;
@@ -9,16 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chinomatik.dto.EventDto;
 import com.chinomatik.dto.RecordDto;
 import com.chinomatik.nativeHook.NativeHook;
-import com.chinomatik.nativeHook.NativeHookKey;
 import com.chinomatik.nativeHook.NativeHookMouse;
-import com.chinomatik.robot.RobotService;
 import com.chinomatik.services.RecordService;
 import com.google.gson.Gson;
 
@@ -28,12 +24,10 @@ public class HomeController {
 	private static final String INDEX = "index";
 
 	private static final String RECORD_SECUENCES = "record";
+	
 
 	@Autowired
 	private RecordService recordService;
-
-	@Autowired
-	private RobotService robotService;
 
 	private Gson gson = new Gson();
 
@@ -63,7 +57,7 @@ public class HomeController {
 			recordService.save(recordDto);
 		}
 		NativeHookMouse.exit();
-		return "redirect:/saved";
+		return "redirect:/executions";
 	}
 
 	@GetMapping("/reset")
@@ -72,44 +66,15 @@ public class HomeController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/saved")
-	public String saved(Model m) {
-		m.addAttribute("saved", recordService.findAll());
-		return INDEX;
-	}
 
-	@GetMapping("/saved/{id}")
-	public String saved(Model m, @PathVariable Long id) {
-		RecordDto recorDto = recordService.findRecord(id);
-		m.addAttribute("events", recorDto.getEvents());
-		m.addAttribute("recordNo", recorDto.getId());
-		return INDEX;
-	}
-
-	@GetMapping("/execute/{id}")
-	public String execute(Model m, @PathVariable Long id) {
-		robotService.execute(recordService.findRecord(id));
-		return "redirect:/saved";
-	}
-
-	@GetMapping("/execute/{id}/{times}")
-	public String execute(Model m, @PathVariable Long id, @PathVariable Integer times) {
-		robotService.execute(recordService.findRecord(id), times);
-		return "redirect:/saved";
-	}
-
-	@GetMapping("/delete/{id}")
-	public String delete(Model m, @PathVariable Long id) {
-		recordService.deleteById(id);
-		return "redirect:/saved";
-	}
-
-	@GetMapping("/deleteall")
+	@PostMapping("/deleteall")
 	public String deleteAll() {
 		recordService.deleteAll();
-		return "redirect:/saved";
+		return "redirect:/executions";
 	}
 
+	
+	
 	@GetMapping("/events")
 	@ResponseBody
 	public String ajaxEvent() {
@@ -126,7 +91,7 @@ public class HomeController {
 
 	@GetMapping("/recording")
 	@ResponseBody
-	public Boolean isRecording() {
+	public Boolean ajaxIsRecording() {
 		return GlobalScreen.isNativeHookRegistered();
 	}
 

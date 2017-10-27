@@ -5,6 +5,7 @@ import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -48,13 +49,34 @@ public class RobotServiceImpl implements RobotService {
 		kill();
 	}
 
-	private  void init() {
+	@Override
+	public void execute(List<RecordDto> records) {
+		init();
+		for (RecordDto record : records) {
+			robotExecute(record);
+		}
+		kill();
+	}
+
+	@Override
+	public void execute(List<RecordDto> records, int times) {
+		init();
+		while (times > 0) {
+			for (RecordDto record : records) {
+				robotExecute(record);
+			}
+			times--;
+		}
+		kill();
+	}
+
+	private void init() {
 		try {
 			if (robot == null) {
 				robot = new Robot();
 			}
 		} catch (AWTException e) {
-			logger.error("Error init robot",e);
+			logger.error("Error init robot", e);
 		}
 	}
 
@@ -96,9 +118,9 @@ public class RobotServiceImpl implements RobotService {
 
 				}
 			}
-		}catch(NullPointerException nullEx){
+		} catch (NullPointerException nullEx) {
 			logger.info("Finished robot");
-			
+
 		} catch (Exception ex) {
 			logger.error("Error executing robot ", ex);
 

@@ -5,6 +5,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,12 @@ public class RecordServiceImpl implements RecordService {
 	public void deleteById(Long id) {
 		recordDao.deleteById(id);
 		
+	}
+
+	@Override
+	public List<RecordDto> findByIdIn(Collection<Long> ids) {
+		
+		return recordDao.findByIdIn(ids).stream().map(i->RecordDto.entityToDto(i)).collect(Collectors.toList());
 	}
 
 }

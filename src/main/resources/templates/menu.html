@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+
+</head>
+<body>
+	<div id="menu" th:fragment="menu">
+		<ul class="nav nav-pills nav-fill">
+			<li class="nav-item"><a class="nav-link" href="/">Status</a></li>
+			<li class="nav-item"><a class="nav-link" href="/activar"
+				id="activar">Activar</a></li>
+			<li class="nav-item"><a class="nav-link" href="/reset">Reset</a></li>
+			<li class="nav-item"><a class="nav-link" href="/save">Save <span
+					class="badge badge-light" id="count">0</span>
+			</a></li>
+			<li class="nav-item"><a class="nav-link" href="/executions">Executions</a></li>
+		</ul>
+		<div id="alerta" class="alert alert-primary invisible"></div>
+	</div>
+
+
+
+</body>
+</html>
