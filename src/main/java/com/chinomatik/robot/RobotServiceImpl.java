@@ -26,6 +26,8 @@ public class RobotServiceImpl implements RobotService {
 
 	private static Robot robot;
 
+	private static Integer currentExecution = 0;
+
 	static {
 
 		System.setProperty("java.awt.headless", "false");
@@ -86,8 +88,13 @@ public class RobotServiceImpl implements RobotService {
 		}
 	}
 
-	private void robotExecute(RecordDto record) {
+	public static Integer getCurrentExecution() {
+		return currentExecution;
+	}
 
+
+	private void robotExecute(RecordDto record) {
+		currentExecution = record.getId();
 		try {
 			for (EventDto e : record.getEvents()) {
 				if (robot != null) {
@@ -125,6 +132,7 @@ public class RobotServiceImpl implements RobotService {
 			logger.error("Error executing robot ", ex);
 
 		}
+		currentExecution = 0;
 
 	}
 

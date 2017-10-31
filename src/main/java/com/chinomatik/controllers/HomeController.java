@@ -1,6 +1,7 @@
 package com.chinomatik.controllers;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jnativehook.GlobalScreen;
@@ -42,8 +43,10 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String status(Model m) {
-
-		List<EventDto> events = NativeHookMouse.getEvents();
+		List<EventDto> events =  new ArrayList<>();
+		if(NativeHookMouse.getEvents()!=null){
+			events.addAll(NativeHookMouse.getEvents());
+		}
 		m.addAttribute("events", events);
 		return INDEX;
 	}

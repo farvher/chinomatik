@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.chinomatik.dto.ExecutionDto;
 import com.chinomatik.dto.RecordDto;
 import com.chinomatik.robot.RobotService;
+import com.chinomatik.robot.RobotServiceImpl;
 import com.chinomatik.services.ExecutionService;
 import com.chinomatik.services.RecordService;
 
@@ -77,11 +78,17 @@ public class ExecutionController {
 		robotService.execute(recordList,execution.getTimes());
 		return "redirect:/executions";
 	}
-
-	@PostMapping("/delete/{id}")
+	
+	@PostMapping("/current-execution")
 	@ResponseBody
-	public String delete(Model m, @PathVariable Long id) {
-		recordService.deleteById(id);
+	public Integer currentExecution(){
+		return RobotServiceImpl.getCurrentExecution();
+	}
+
+	@PostMapping("/delete-execution")
+	@ResponseBody
+	public String delete(Model m, Integer id) {
+		executionService.delete(id);
 		return "deleted";
 	}
 

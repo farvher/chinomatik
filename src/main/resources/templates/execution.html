@@ -70,8 +70,8 @@
 
 						</div>
 						<div>
-							<a class="btn btn-light" th:each="id : ${exec.recordsId}"
-								th:text="|r:${id}|" href="#"></a>
+							<a class="btn btn-light ex-current" th:each="id : ${exec.recordsId}"
+								th:text="|r:${id}|" href="#" th:value="${id}"></a>
 						</div>
 
 					</li>
