@@ -1,6 +1,5 @@
 package com.chinomatik.controllers;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chinomatik.dto.EventDto;
-import com.chinomatik.dto.RecordDto;
-import com.chinomatik.nativeHook.NativeHook;
-import com.chinomatik.nativeHook.NativeHookMouse;
+import com.chinomatik.nativehook.NativeHook;
+import com.chinomatik.nativehook.NativeHookMouse;
 import com.chinomatik.services.RecordService;
 import com.google.gson.Gson;
 
@@ -25,9 +23,8 @@ public class HomeController {
 	private static final String INDEX = "index";
 
 	private static final String RECORD_SECUENCES = "record";
-	
-	private static final String EXECUTIONS ="executions";
-	
+
+	private static final String EXECUTIONS = "executions";
 
 	@Autowired
 	private RecordService recordService;
@@ -43,8 +40,8 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String status(Model m) {
-		List<EventDto> events =  new ArrayList<>();
-		if(NativeHookMouse.getEvents()!=null){
+		List<EventDto> events = new ArrayList<>();
+		if (NativeHookMouse.getEvents() != null) {
 			events.addAll(NativeHookMouse.getEvents());
 		}
 		m.addAttribute("events", events);
@@ -53,15 +50,7 @@ public class HomeController {
 
 	@GetMapping("/save")
 	public String save() {
-		List<EventDto> events = NativeHookMouse.getEvents();
-		RecordDto recordDto = new RecordDto();
-		recordDto.setEvents(events);
-		recordDto.setRecordEnd(LocalDateTime.now());
-		recordDto.setId(recordService.getNextSequence(RECORD_SECUENCES));
-		if (events != null) {
-			recordService.save(recordDto);
-		}
-		NativeHookMouse.exit();
+		recordService.save();
 		return "redirect:/executions";
 	}
 
@@ -71,15 +60,19 @@ public class HomeController {
 		return "redirect:/";
 	}
 
-
-	@PostMapping("/deleteall")
+	@PostMapping("/delete-all")
 	public String deleteAll() {
 		recordService.deleteAll();
 		return "redirect:/executions";
 	}
 
-	
-	
+	@PostMapping("/delete-record")
+	@ResponseBody
+	public String deleteRecord(Long id) {
+		recordService.deleteById(id);
+		return "deleted";
+	}
+
 	@GetMapping("/events")
 	@ResponseBody
 	public String ajaxEvent() {
@@ -97,7 +90,7 @@ public class HomeController {
 	@GetMapping("/recording")
 	@ResponseBody
 	public Boolean ajaxIsRecording() {
-		return GlobalScreen.isNativeHookRegistered();
+		return NativeHook.isRecording && GlobalScreen.isNativeHookRegistered();
 	}
 
 }

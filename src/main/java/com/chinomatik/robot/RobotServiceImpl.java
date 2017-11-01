@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.chinomatik.dto.EventDto;
 import com.chinomatik.dto.RecordDto;
-import com.chinomatik.nativeHook.NativeHook;
+import com.chinomatik.nativehook.NativeHook;
 
 @Component
 public class RobotServiceImpl implements RobotService {

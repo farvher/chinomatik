@@ -1,4 +1,4 @@
-package com.chinomatik.nativeHook;
+package com.chinomatik.nativehook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,8 @@ import org.jnativehook.NativeHookException;
 import com.chinomatik.dto.EventDto;
 
 public abstract class NativeHook {
+	
+	public static Boolean isRecording = true;
 
 	public static final String MOUSEMOVED = "MOUSEMOVED";
 

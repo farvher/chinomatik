@@ -4,6 +4,7 @@ import static org.springframework.data.mongodb.core.FindAndModifyOptions.options
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,13 +15,19 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import com.chinomatik.dto.EventDto;
 import com.chinomatik.dto.RecordDto;
 import com.chinomatik.model.CustomSequences;
 import com.chinomatik.model.Record;
+import com.chinomatik.nativehook.NativeHookMouse;
 import com.chinomatik.repository.RecordDAO;
 
 @Service
 public class RecordServiceImpl implements RecordService {
+
+	private static final String RECORD_SECUENCES = "record";
+
+	private static final Integer LIMIT = 4;
 
 	@Autowired
 	private RecordDAO recordDao;
@@ -41,6 +48,19 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	public void save() {
+		List<EventDto> events = NativeHookMouse.getEvents();
+		RecordDto recordDto = new RecordDto();
+		recordDto.setRecordEnd(LocalDateTime.now());
+		recordDto.setId(getNextSequence(RECORD_SECUENCES));
+		if (events != null) {
+			recordDto.setEvents(events.subList(LIMIT, events.size() - LIMIT));
+			recordDao.save(RecordDto.dtoToEntity(recordDto));
+		}
+		NativeHookMouse.exit();
+	}
+
+	@Override
 	public RecordDto findRecord(Long recordId) {
 		if (recordDao.existsById(recordId)) {
 			return RecordDto.entityToDto(recordDao.findById(recordId).get());
@@ -55,19 +75,19 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public List<RecordDto> findAll() {
-		return recordDao.findAll().stream().map(i-> RecordDto.entityToDto(i)).collect(Collectors.toList());
+		return recordDao.findAll().stream().map(i -> RecordDto.entityToDto(i)).collect(Collectors.toList());
 	}
 
 	@Override
 	public void deleteById(Long id) {
 		recordDao.deleteById(id);
-		
+
 	}
 
 	@Override
 	public List<RecordDto> findByIdIn(List<Long> ids) {
-		
-		return recordDao.findByIdIn(ids).stream().map(i->RecordDto.entityToDto(i)).collect(Collectors.toList());
+
+		return recordDao.findByIdIn(ids).stream().map(i -> RecordDto.entityToDto(i)).collect(Collectors.toList());
 	}
 
 }

@@ -18,6 +18,8 @@
 							<a class="btn col-sm record-add" th:attr="data=${s.id}" href="#"
 								th:text="|Add ${s.id}|"></a> <a class="btn col-sm single-record"
 								href="#" th:text="|Execute ${s.id}|" th:attr="data=${s.id}"></a>
+								<a class="btn col-sm rec-delete"
+								href="#" th:text="|Delete ${s.id}|" th:attr="data=${s.id}"></a>
 						</div>
 					</li>
 				</ul>
@@ -30,7 +32,7 @@
 					<div class="form-group ">
 						<label for="executionName" class="">Execution name:</label> <input
 							type="text" required="required" class="form-control"
-							placeholder="login execution ..." name="executionName"
+							placeholder="Execution ..." name="executionName"
 							id="executionName" />
 					</div>
 					<div class="form-group">

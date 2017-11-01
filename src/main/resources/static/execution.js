@@ -47,6 +47,27 @@ $(function() {
 	})
 	
 	/**
+	 * Delete a single record
+	 * */
+	$(".rec-delete").click(function(){
+		var id = $(this).attr("data");
+		var fn = function(){
+			location.reload();
+		}
+		sendAjax("/delete-record", {id:id}, "post", fn);
+		
+	})
+	/**
+	 * Delete all records 
+	 * */
+	$(".rec-delete-all").click(function(){
+		var fn = function(){
+			location.reload();
+		}
+		sendAjax("/delete-all", {}, "post", fn);
+	})
+	
+	/**
 	 * activate listener with ajax
 	 * */
 	$(".activate-robot").click(function(){

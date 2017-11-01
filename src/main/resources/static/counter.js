@@ -8,6 +8,7 @@ function isRecording() {
 		method : "get",
 		contentType : 'application/json',
 		success : function(data) {
+			$("#activar").removeClass("active");
 			$("#activar").addClass(data ? "active" : "");
 			$("#activar").text(data ? "Activo" : "Activar");
 		},
