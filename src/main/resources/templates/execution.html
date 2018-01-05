@@ -18,8 +18,8 @@
 							<a class="btn col-sm record-add" th:attr="data=${s.id}" href="#"
 								th:text="|Add ${s.id}|"></a> <a class="btn col-sm single-record"
 								href="#" th:text="|Execute ${s.id}|" th:attr="data=${s.id}"></a>
-								<a class="btn col-sm rec-delete"
-								href="#" th:text="|Delete ${s.id}|" th:attr="data=${s.id}"></a>
+							<a class="btn col-sm rec-delete" href="#"
+								th:text="|Delete ${s.id}|" th:attr="data=${s.id}"></a>
 						</div>
 					</li>
 				</ul>
@@ -45,6 +45,10 @@
 						<label for="times" class="">Times:</label> <input type="number"
 							name="times" id="times" min="1" value="1" max="50"
 							required="required" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="variables">Variables:</label>
+						<textarea cols="" rows="" name="variables"  class="form-control" id="variables"></textarea>
 					</div>
 
 					<div class="form-group" id="recordsAdded"></div>
@@ -72,8 +76,9 @@
 
 						</div>
 						<div>
-							<a class="btn btn-light ex-current" th:each="id : ${exec.recordsId}"
-								th:text="|r:${id}|" href="#" th:value="${id}"></a>
+							<a class="btn btn-light ex-current"
+								th:each="id : ${exec.recordsId}" th:text="|r:${id}|" href="#"
+								th:value="${id}"></a>
 						</div>
 
 					</li>

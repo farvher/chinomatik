@@ -27,6 +27,8 @@ public class RobotServiceImpl implements RobotService {
 	private static Robot robot;
 
 	private static Integer currentExecution = 0;
+	
+	public static Integer delay = 50;
 
 	static {
 
@@ -98,7 +100,7 @@ public class RobotServiceImpl implements RobotService {
 		try {
 			for (EventDto e : record.getEvents()) {
 				if (robot != null) {
-					robot.delay(50);
+					robot.delay(delay);
 					switch (e.getEvent()) {
 					case NativeHook.INPUTKEYRELEASE:
 						robot.keyPress(createAwtKeyEvent(e.getKey()));
