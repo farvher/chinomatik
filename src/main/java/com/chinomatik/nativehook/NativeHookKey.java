@@ -10,7 +10,10 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import com.chinomatik.dto.EventDto;
@@ -20,8 +23,10 @@ import com.chinomatik.services.RecordService;
 import com.chinomatik.services.RecordServiceImpl;
 
 @Component
-public class NativeHookKey extends NativeHook implements NativeKeyListener {
+public class NativeHookKey extends NativeHook implements NativeKeyListener,ApplicationContextAware{
 
+	  private static ApplicationContext ac;
+	
 	@Override
 	public void nativeKeyTyped(NativeKeyEvent e) {
 		// events.add(new EventDto(null, null, e.getKeyCode(),
@@ -37,6 +42,11 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 			isRecording = !isRecording;
 		} else if (e.getKeyCode() == NativeKeyEvent.VC_F10) {
 			NativeHook.exit();
+		}else if(e.getKeyCode() == NativeKeyEvent.VC_F8) {
+			
+			RecordService recordService = (RecordService) ac.getBean("recordServiceImpl");
+			if(recordService!=null) 
+				recordService.save();
 		}
 	}
 
@@ -46,6 +56,12 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener {
 			events.add(new EventDto(null, null, e.getKeyCode(), LocalDateTime.now(),
 					Calendar.getInstance().getTimeInMillis(), INPUTKEYRELEASE));
 		}
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		 this.ac = applicationContext;
+		
 	}
 
 }
