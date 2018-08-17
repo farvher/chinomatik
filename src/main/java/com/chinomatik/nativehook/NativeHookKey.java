@@ -38,9 +38,9 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener,Appli
 	public void nativeKeyPressed(NativeKeyEvent e) {
 		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
 			RobotServiceImpl.kill();
-		} else if (e.getKeyCode() == NativeKeyEvent.VC_F9) {
-			isRecording = !isRecording;
 		} else if (e.getKeyCode() == NativeKeyEvent.VC_F10) {
+			isRecording = !isRecording;
+		} else if (e.getKeyCode() == NativeKeyEvent.VC_F9) {
 			NativeHook.exit();
 		}else if(e.getKeyCode() == NativeKeyEvent.VC_F8) {
 			

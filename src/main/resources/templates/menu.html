@@ -7,15 +7,18 @@
 <body>
 	<div id="menu" th:fragment="menu">
 		<ul class="nav nav-pills nav-fill">
-			<li class="nav-item"><a class="nav-link activate-robot" href="#"
-				id="activar">Activar</a></li>
+
 			<li class="nav-item"><a class="nav-link" href="/executions">Ejecuciones</a></li>
 			<li class="nav-item"><a class="nav-link" href="/">Estado</a></li>
 
-			<li class="nav-item"><a class="nav-link" href="/reset" title="Presione f10 para reiniciar">Reiniciar</a></li>
-			<li class="nav-item"><a class="nav-link" href="/save" >Guardar<span
-					class="badge badge-light" id="count">0</span>
+			<li class="nav-item"><a class="nav-link" href="/save">Guardar
+					F8<span class="badge badge-light" id="count">0</span>
 			</a></li>
+
+			<li class="nav-item"><a class="nav-link" href="/reset">Reiniciar
+					F9</a></li>
+			<li class="nav-item"><a class="nav-link activate-robot bg-warning" href="#"
+				id="activar">Activar</a></li>
 
 		</ul>
 		<div id="alerta" class="alert alert-primary invisible"></div>

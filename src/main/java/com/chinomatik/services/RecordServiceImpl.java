@@ -54,7 +54,7 @@ public class RecordServiceImpl implements RecordService {
 		recordDto.setRecordEnd(LocalDateTime.now());
 		recordDto.setId(getNextSequence(RECORD_SECUENCES));
 		if (events != null) {
-			recordDto.setEvents(events.subList(LIMIT, events.size() - LIMIT));
+			recordDto.setEvents(events);
 			recordDao.save(RecordDto.dtoToEntity(recordDto));
 		}
 		NativeHookMouse.exit();

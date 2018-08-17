@@ -1,15 +1,17 @@
 package com.chinomatik.robot;
 
 import java.awt.AWTException;
+import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.time.LocalDateTime;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 
-import org.jnativehook.NativeInputEvent;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,6 +129,11 @@ public class RobotServiceImpl implements RobotService {
 
 				}
 			}
+			Rectangle area = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+			BufferedImage  bufferedImage = robot.createScreenCapture(area);
+			   File outputfile = new File("D:\\robotImag.jpg");
+			   ImageIO.write(bufferedImage, "jpg", outputfile);
+			
 		} catch (NullPointerException nullEx) {
 			logger.info("Finished robot");
 
