@@ -33,6 +33,7 @@ public class HomeController {
 
 	@GetMapping("/activar")
 	public String active() {
+		NativeHook.isRecording = !NativeHook.isRecording;
 		NativeHook.exit();
 		NativeHook.init();
 		return INDEX;

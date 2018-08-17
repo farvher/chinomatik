@@ -47,7 +47,7 @@ public class ExecutionController {
 		ExecutionDto executionDto = new ExecutionDto();
 		executionDto.setExecutionName(executionName);
 		executionDto.setId(executionService.getNextSequence("execution"));
-		executionDto.setScheduledStart(parseLocalDateTime(dateTime));
+		//executionDto.setScheduledStart(parseLocalDateTime(dateTime));
 		executionDto.setRecordsId(Arrays.asList(idRecord));
 		executionDto.setTimes(times);
 		executionService.save(executionDto);

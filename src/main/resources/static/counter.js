@@ -10,7 +10,7 @@ function isRecording() {
 		success : function(data) {
 			$("#activar").removeClass("active");
 			$("#activar").addClass(data ? "active" : "");
-			$("#activar").text(data ? "Activo" : "Activar");
+			$("#activar").text(data ? "Activo" : "Activar F9");
 		},
 		error : function(er) {
 			console.log("error: " + er);
