@@ -12,7 +12,7 @@ import com.chinomatik.dto.EventDto;
 
 public abstract class NativeHook {
 	
-	public static Boolean isRecording = true;
+	public static Boolean isRecording = false;
 
 	public static final String MOUSEMOVED = "MOUSEMOVED";
 

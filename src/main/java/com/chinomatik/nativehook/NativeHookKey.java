@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import com.chinomatik.controllers.HomeController;
 import com.chinomatik.dto.EventDto;
 import com.chinomatik.robot.RobotService;
 import com.chinomatik.robot.RobotServiceImpl;
@@ -42,11 +43,13 @@ public class NativeHookKey extends NativeHook implements NativeKeyListener,Appli
 			isRecording = !isRecording;
 		} else if (e.getKeyCode() == NativeKeyEvent.VC_F9) {
 			NativeHook.exit();
+			isRecording = true;
 		}else if(e.getKeyCode() == NativeKeyEvent.VC_F8) {
 			
 			RecordService recordService = (RecordService) ac.getBean("recordServiceImpl");
 			if(recordService!=null) 
 				recordService.save();
+					
 		}
 	}
 

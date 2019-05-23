@@ -30,7 +30,7 @@ public class RobotServiceImpl implements RobotService {
 
 	private static Integer currentExecution = 0;
 	
-	public static Integer delay = 50;
+	public static Integer delay = 20;
 
 	static {
 
@@ -129,10 +129,10 @@ public class RobotServiceImpl implements RobotService {
 
 				}
 			}
-			Rectangle area = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-			BufferedImage  bufferedImage = robot.createScreenCapture(area);
-			   File outputfile = new File("D:\\robotImag.jpg");
-			   ImageIO.write(bufferedImage, "jpg", outputfile);
+//			Rectangle area = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+//			BufferedImage  bufferedImage = robot.createScreenCapture(area);
+//			   File outputfile = new File("D:\\robotImag.jpg");
+//			   ImageIO.write(bufferedImage, "jpg", outputfile);
 			
 		} catch (NullPointerException nullEx) {
 			logger.info("Finished robot");

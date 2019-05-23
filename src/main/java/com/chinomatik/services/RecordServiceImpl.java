@@ -19,6 +19,7 @@ import com.chinomatik.dto.EventDto;
 import com.chinomatik.dto.RecordDto;
 import com.chinomatik.model.CustomSequences;
 import com.chinomatik.model.Record;
+import com.chinomatik.nativehook.NativeHook;
 import com.chinomatik.nativehook.NativeHookMouse;
 import com.chinomatik.repository.RecordDAO;
 
@@ -57,6 +58,7 @@ public class RecordServiceImpl implements RecordService {
 			recordDto.setEvents(events);
 			recordDao.save(RecordDto.dtoToEntity(recordDto));
 		}
+		NativeHook.isRecording = false;
 		NativeHookMouse.exit();
 	}
 
